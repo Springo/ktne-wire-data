@@ -17,6 +17,19 @@ from KTNEWires import KTNEWires
 
 # =============================================================================
 
+def get_data(filename, head=True):
+    """ Reads and returns data from file """
+
+    data = []
+    header = []
+    with open(filename, 'r', encoding='utf-8') as f:
+        csv_reader = csv.reader(f)
+        if head:
+            header = next(csv_reader)
+        for line in csv_reader:
+            data.append(line)
+    return data, header
+
 def main():
     """ Main method for initializing a run """
 
