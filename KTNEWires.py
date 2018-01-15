@@ -36,13 +36,15 @@ class KTNEWires:
                 data.append(line)
         return data, header
 
-    def generate_data(self, n, n_wires=-1):
-        """ Generates random KNTE data """
+    def generate_data(self, n, labels=True, n_wires=-1):
+        """ Generates random KTNE data """
 
         data = []
         for i in range(n):
             if n_wires == -1:
-                n_wires = randint(3, 6)
+                n_wir = randint(3, 6)
+            else:
+                n_wir = n_wires
             colornums = [randint(0, 4) for _ in range(6)]
             colors = ["none"] * 6
             n_red = 0
@@ -50,7 +52,7 @@ class KTNEWires:
             n_yellow = 0
             n_white = 0
             n_black = 0
-            for j in range(n_wires):
+            for j in range(n_wir):
                 if colornums[j] == 0:
                     colors[j] = 'red'
                     n_red += 1
@@ -67,10 +69,15 @@ class KTNEWires:
                     colors[j] = 'black'
                     n_black += 1
             serial = randint(0, 9)
-            row = [n_wires]
+            row = [n_wir]
             row.extend(colors)
             row.extend([n_red, n_blue, n_yellow, n_white, n_black, serial])
             data.append(row)
+
+        if labels:
+            labs = self.get_labels(data)
+            for i in range(n):
+                data[i].append(labs[i])
 
         return data
 
