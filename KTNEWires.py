@@ -13,6 +13,7 @@ DEVELOPER NOTES:
 # =============================================================================
 
 import csv
+from random import randint
 
 # =============================================================================
 
@@ -34,6 +35,44 @@ class KTNEWires:
             for line in csv_reader:
                 data.append(line)
         return data, header
+
+    def generate_data(self, n, n_wires=-1):
+        """ Generates random KNTE data """
+
+        data = []
+        for i in range(n):
+            if n_wires == -1:
+                n_wires = randint(3, 6)
+            colornums = [randint(0, 4) for _ in range(6)]
+            colors = ["none"] * 6
+            n_red = 0
+            n_blue = 0
+            n_yellow = 0
+            n_white = 0
+            n_black = 0
+            for j in range(n_wires):
+                if colornums[j] == 0:
+                    colors[j] = 'red'
+                    n_red += 1
+                elif colornums[j] == 1:
+                    colors[j] = 'blue'
+                    n_blue += 1
+                elif colornums[j] == 2:
+                    colors[j] = 'yellow'
+                    n_yellow += 1
+                elif colornums[j] == 3:
+                    colors[j] = 'white'
+                    n_white += 1
+                else:
+                    colors[j] = 'black'
+                    n_black += 1
+            serial = randint(0, 9)
+            row = [n_wires]
+            row.extend(colors)
+            row.extend([n_red, n_blue, n_yellow, n_white, n_black, serial])
+            data.append(row)
+
+        return data
 
     def get_labels(self, data):
         """ Returns true labels to given KTNE data """
